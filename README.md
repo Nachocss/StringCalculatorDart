@@ -1,16 +1,54 @@
-# string_calculator_java
+# String Calculator Kata
+The following is a TDD Kata, an exercise in coding, refactoring and test-first.
 
-A new Flutter project.
+This classic kata guides you step by step through the implementation of a calculator that receives a *String* as input. It is a good exercise on refactoring and incremental implementation. It is also a good candidate for practising TDD.
 
-## Getting Started
+# First step
+Create a function *add* that takes a *String* and returns a *String*:
 
-This project is a starting point for a Flutter application.
+> *String add(String number)*
+- The method can take 0, 1 or 2 numbers separated by comma, and returns their sum.
+- An empty string will return “0”.
+- Example of inputs: *"", "1", "1.1,2.2".*
 
-A few resources to get you started if this is your first Flutter project:
+# Many numbers
+Allow the *add* method to handle an unknow number of arguments.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+# Newline as separator
+Allow the *add* method to handle newlines as separators:
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- *"1\n2,3"* should return *"6"*.
+- *"175.2,\n35"* is invalid and should return the message *"Number expected but '\n' found at position 6."*
+
+# Missing number in last position
+Don’t allow the input to end in a separator.
+
+- *"1,3,"* is invalid and should return the message *Number expected but EOF found.*
+
+# Custom separators
+Allow the *add* method to handle a different delimiter. To change the delimiter, the beginning of the input will contain a separate line that looks like this:
+
+> //[delimiter]\n[numbers]
+- *"//;\n1;2"* should return *"3"*
+- *"//|\n1|2|3"* should return *"6"*
+- *"//sep\n2sep3"* should return *"5"*
+- *"//|\n1|2,3"* is invalid and should return the message *"'|' expected but ',' found at position 3."*
+
+All existing scenarios should work as before.
+
+# Negative numbers
+Calling *add* with negative numbers will return the message *"Negative not allowed : " listing all negative numbers that were in the list of numbers.*
+
+- *"-1,2"* is invalid and should return the message *"Negative not allowed : -1"*
+- *"2,-4,-5"* is invalid and should return the message *"Negative not allowed : -4, -5"*
+
+# Multiple errors
+Calling *add* with multiple errors will return all error messages separated by newlines.
+
+- *"-1,,2"* is invalid and return the message *"Negative not allowed : -1\nNumber expected but ',' found at position 3."*
+
+# Errors management
+Introduce an internal *add* function returning a number instead of a *String*, and test many solutions for the error messages. - Exception - *maybe* and monad approch - POSIX return code with message managemement - tuple with error struct like in Go - etc.
+
+# Other operations
+Write a function for multiply with same rules
