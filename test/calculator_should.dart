@@ -21,8 +21,21 @@ void main() {
     expect(calculator.add("1,2,3"), "6");
     expect(calculator.add("1,3.1"), "4.1");
   });
-  
+
   test('handle "newlines" as separators', () {
     expect(calculator.add("1\n2"), "3");
+  });
+
+  test('return "Number expected but EOF found."', () {
+    expect(calculator.add("1,3,"), "Number expected but EOF found.");
+  });
+
+  test('allow custom separators', () {
+    expect(calculator.add("//;\n1;2"), "3");
+    expect(calculator.add("//|\n1|2"), "3");
+    expect(calculator.add("//*\n1*2"), "3");
+    expect(calculator.add("//*|\n1*2|2"), "5");
+    expect(calculator.add("//sep\n1sep2"), "3");
+    expect(calculator.add("//;\n1;2"), "3");
   });
 }
