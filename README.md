@@ -53,3 +53,13 @@ Introduce an internal *add* function returning a number instead of a *String*, a
 # Other operations
 Write a function for multiply with same rules
 
+
+
+# WIP BLoC
+This is a WIP part where the goal is to practice the *BLoC pattern*.
+
+# Get user input by GUI
+Add an input text field and call the function *add*.
+
+# Print the result in the GUI
+Add a new text field to print the result.
