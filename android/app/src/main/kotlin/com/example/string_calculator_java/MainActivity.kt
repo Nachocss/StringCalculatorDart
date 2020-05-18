@@ -1,0 +1,6 @@
+package com.example.string_calculator_java
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
