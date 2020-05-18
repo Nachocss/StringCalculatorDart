@@ -51,8 +51,5 @@ Calling *add* with multiple errors will return all error messages separated by n
 Introduce an internal *add* function returning a number instead of a *String*, and test many solutions for the error messages. - Exception - *maybe* and monad approch - POSIX return code with message managemement - tuple with error struct like in Go - etc.
 
 # Other operations
-<<<<<<< HEAD
 Write a function for multiply with same rules
-=======
-Write a function for multiply with same rules
->>>>>>> e0085b0ce8d2746f305725312d39312c78c9afb4
+
