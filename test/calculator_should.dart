@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:string_calculator_java/calculator.dart';
 
 void main() {
-
   final calculator = Calculator();
 
   test('return 0', () {
@@ -41,5 +40,11 @@ void main() {
 
   test('return error when negative numbers are inserted', () {
     expect(calculator.add("-1,2"), "Negative not allowed : -1");
+    expect(calculator.add("2,-4,-5"), "Negative not allowed : -4, -5");
+  });
+
+  test('return multiple error messages', () {
+    expect(calculator.add("-1,,2"),
+        "Number expected but ',' found at position 3.\nNegative not allowed : -1");
   });
 }
