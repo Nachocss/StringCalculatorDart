@@ -38,4 +38,8 @@ void main() {
     expect(calculator.add("//sep\n1sep2"), "3");
     expect(calculator.add("//;\n1;2"), "3");
   });
+
+  test('return error when negative numbers are inserted', () {
+    expect(calculator.add("-1,2"), "Negative not allowed : -1");
+  });
 }
