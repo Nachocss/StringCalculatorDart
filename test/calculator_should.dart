@@ -9,5 +9,20 @@ void main() {
     expect(calculator.add(""), "0");
   });
 
+  test('return the input value', () {
+    expect(calculator.add("1"), "1");
+  });
+
+  test('return the sum of 2 given numbers separated by comma', () {
+    expect(calculator.add("1.1,2.2"), "3.3");
+  });
+
+  test('handle an unknown amount of numbers', () {
+    expect(calculator.add("1,2,3"), "6");
+    expect(calculator.add("1,3.1"), "4.1");
+  });
   
+  test('handle "newlines" as separators', () {
+    expect(calculator.add("1\n2"), "3");
+  });
 }
