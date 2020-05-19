@@ -54,7 +54,7 @@ Introduce an internal *add* function returning a number instead of a *String*, a
 Write a function for multiply with same rules
 
 
-
+# 
 # From this point, the goal is to practice the BLoC pattern
 # 
 

@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:string_calculator_java/bloc/calculator_events.dart';
 import 'package:string_calculator_java/bloc/calculator_state.dart';
 import 'package:string_calculator_java/calculator.dart';
-import 'package:string_calculator_java/calculator_error.dart';
 
 import '../error_log.dart';
 

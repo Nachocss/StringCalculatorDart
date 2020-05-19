@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:string_calculator_java/bloc/calculator_bloc.dart';
 import 'package:string_calculator_java/bloc/simple_bloc_delegate.dart';
-import 'package:string_calculator_java/calculator.dart';
 import 'package:string_calculator_java/widgets/CalculatorWidget.dart';
 
 void main() {

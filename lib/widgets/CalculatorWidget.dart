@@ -48,6 +48,7 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
                 ],
               );
             }
+            return null;
           },
         ),
       ),
@@ -93,6 +94,7 @@ class HomeScreen extends StatelessWidget {
     return Center(
         child: TextField(
       controller: inputController,
+      maxLines: 2,
       decoration: InputDecoration(hintText: 'Please insert data'),
     ));
   }

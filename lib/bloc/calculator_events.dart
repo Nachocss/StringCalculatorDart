@@ -17,7 +17,7 @@ class OperateInput extends CalculatorEvent {
 class GoHome extends CalculatorEvent {
 
   const GoHome();
-  
+
   @override
   List<Object> get props => [];
 }
