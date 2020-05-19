@@ -56,17 +56,23 @@ Write a function for multiply with same rules
 
 
 # From this point, the goal is to practice the BLoC pattern
+# 
 
 # Get user input by GUI
-Create a State that contains an input text field.
-This State will add an Event to the Stream when pressing ENTER.
+Create a Widget that contains an input text field.
+This Widget will add an Event to the Stream when pressing ENTER.
 
 # Process the new Event
-When our new event is created, call the function *add* and get the result.
+When our new event is created, call the function *add* and get the result and print it through console.
 
 # Print the result in the GUI
-Create a new State that should print the result of the function *add*.
-Add a new text field to show the output in this State.
+Create a new Widget that will print the result of the function *add*.
+
+# Inform through the GUI if anything went wrong
+Tell the user what happened in case an error was found.
+
+# Allow the user to navigate between the different States
+Add a *BACK* button that takes you from the final State to the Initial State
 
 # Add an operator selector
 In the input State, create a widget for selecting the operation to be performed.

@@ -29,11 +29,11 @@ class _CalculatorWidgetState extends State<CalculatorWidget> {
       body: Center(
         child: BlocBuilder<CalculatorBloc, CalculatorState>(
           builder: (context, state) {
-            switch (state.runtimeType) {
-              case CalculatorEmpty:
-                return HomeScreen(inputController: inputController);
-              case CalculatorFoundError:
-                return ErrorScreen();
+            if (state is CalculatorEmpty) {
+              return HomeScreen(inputController: inputController);
+            }
+            if (state is CalculatorFoundError) {
+              return ErrorScreen();
             }
             if (state is CalculatorResult) {
               return Column(
