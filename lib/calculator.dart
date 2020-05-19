@@ -16,7 +16,6 @@ class Calculator {
     if (isEmpty(input)) {
       return "0";
     }
-
     _processInput(input);
     if (ErrorLog.isNotEmpty())
       return "Error has occurred. Check ErrorLog to see details.";
@@ -29,7 +28,6 @@ class Calculator {
     if (isEmpty(input)) {
       return "0";
     }
-
     _processInput(input);
     if (ErrorLog.isNotEmpty())
       return "Error has occurred. Check ErrorLog to see details.";
