@@ -1,4 +1,7 @@
 import 'package:quiver/strings.dart';
+import 'package:string_calculator_java/error_log.dart';
+
+import 'calculator_error.dart';
 
 class Calculator {
   List<double> _nums = new List();
@@ -7,34 +10,51 @@ class Calculator {
   RegExp _separatorsRegex;
   RegExp _numbersRegex = new RegExp("^-?[0-9]+");
   RegExp _specialCharacters = new RegExp("[!@#\$%^&*(),.?\":{}|<>]");
-  String _errorMsg;
   int _inputIndex; //Value that represents the char that is being tested on the input string.
 
   add(String input) {
-    _nums.clear();
-    _errorMsg = "";
-    _inputIndex = 1;
     if (isEmpty(input)) {
       return "0";
     }
 
+    _processInput(input);
+    if (ErrorLog.isNotEmpty())
+      return "Error has occurred. Check ErrorLog to see details.";
+
+    var result = _nums.reduce((a, b) => a + b);
+    return _roundIfPossible(result);
+  }
+
+  multiply(String input) {
+    if (isEmpty(input)) {
+      return "0";
+    }
+
+    _processInput(input);
+    if (ErrorLog.isNotEmpty())
+      return "Error has occurred. Check ErrorLog to see details.";
+
+    var result = _nums.reduce((a, b) => a * b);
+    return _roundIfPossible(result);
+  }
+
+  void _processInput(String input) {
+    _nums.clear();
+    _inputIndex = 1;
+    ErrorLog.clear();
     _setSeparators(input);
     input = _cleanInput(input);
 
     bool endsInNumber =
         input.substring(input.length - 1).contains(_numbersRegex);
     if (!endsInNumber) {
-      return "Number expected but EOF found.";
+      ErrorLog.put(new CalculatorError(
+          ErrorCode.EOF_FOUND, "Number expected but EOF found."));
     }
 
     _castInputToDouble(input);
 
     _searchForNegativeValues();
-
-    if (_errorMsg.isNotEmpty) return _errorMsg;
-
-    var result = _nums.reduce((a, b) => a + b);
-    return _roundIfPossible(result);
   }
 
   _setSeparators(String input) {
@@ -64,11 +84,13 @@ class Calculator {
     }
     bool hasNegativeValues = negativeNums.isNotEmpty;
     if (hasNegativeValues) {
-      _addNewErrorMessage("Negative not allowed : ");
+      String negativeErrorMessage =
+          "Negative not allowed : "; //Hay que formar el string aNTES de loggearlo
       for (var i = 0; i < negativeNums.length; i++) {
-        _errorMsg += _roundIfPossible(negativeNums[i]);
-        if (i != negativeNums.length - 1) _errorMsg += ", ";
+        negativeErrorMessage += _roundIfPossible(negativeNums[i]);
+        if (i != negativeNums.length - 1) negativeErrorMessage += ", ";
       }
+      _addNewErrorMessage(ErrorCode.NEGATIVE_NOT_ALLOWED, negativeErrorMessage);
     }
   }
 
@@ -82,11 +104,14 @@ class Calculator {
       try {
         _nums.add(double.parse(value));
       } catch (FormatException) {
-        _addNewErrorMessage("Number expected but '" +
-            input[_inputIndex] +
-            "' found at position " +
-            _inputIndex.toString() +
-            ".");
+        if (ErrorLog.getLast()?.message != "Number expected but EOF found.") //El modificador '?.' solo realizará la operación cuando la función no haya devuelto null. 
+          _addNewErrorMessage(
+              ErrorCode.NUMBER_EXPECTED,
+              "Number expected but '" +
+                  input[_inputIndex] +
+                  "' found at position " +
+                  _inputIndex.toString() +
+                  ".");
       }
     }
   }
@@ -98,8 +123,7 @@ class Calculator {
     return result.toStringAsFixed(1);
   }
 
-  _addNewErrorMessage(String text) {
-    if (_errorMsg.isNotEmpty) _errorMsg += "\n";
-    _errorMsg += text;
+  _addNewErrorMessage(ErrorCode errorCode, String message) {
+    ErrorLog.put(new CalculatorError(errorCode, message));
   }
 }

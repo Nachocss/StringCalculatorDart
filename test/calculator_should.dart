@@ -1,5 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:string_calculator_java/calculator.dart';
+import 'package:string_calculator_java/calculator_error.dart';
+import 'package:string_calculator_java/error_log.dart';
 
 void main() {
   final calculator = Calculator();
@@ -25,8 +27,17 @@ void main() {
     expect(calculator.add("1\n2"), "3");
   });
 
-  test('return "Number expected but EOF found."', () {
-    expect(calculator.add("1,3,"), "Number expected but EOF found.");
+  test('not accept EOF', () {
+    calculator.add("1,3,");
+
+/*
+  Expected: 'Number expected but EOF found.'
+    Actual: 'Number expected but \',\' found at position 3.'
+*/
+
+
+
+    expect(ErrorLog.getLast().message, "Number expected but EOF found.");
   });
 
   test('allow custom separators', () {
@@ -38,13 +49,21 @@ void main() {
     expect(calculator.add("//;\n1;2"), "3");
   });
 
-  test('return error when negative numbers are inserted', () {
-    expect(calculator.add("-1,2"), "Negative not allowed : -1");
-    expect(calculator.add("2,-4,-5"), "Negative not allowed : -4, -5");
+  test('log negative not allowed error', () {
+    calculator.add("-1,2");
+    expect(ErrorLog.getLast().message, "Negative not allowed : -1");
+    calculator.add("2,-4,-5");
+    expect(ErrorLog.getLast().message, "Negative not allowed : -4, -5");
   });
 
-  test('return multiple error messages', () {
-    expect(calculator.add("-1,,2"),
-        "Number expected but ',' found at position 3.\nNegative not allowed : -1");
+  test('log multiple errors', () {
+    calculator.add("-1,,2");
+    expect(ErrorLog.get(ErrorLog.getCount()-2).message,
+        "Number expected but ',' found at position 3.");
+    expect(ErrorLog.getLast().message,"Negative not allowed : -1");
+  });
+
+  test('handle multiplications', () {
+    expect(calculator.multiply("2,2"), "4");
   });
 }
