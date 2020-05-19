@@ -104,7 +104,8 @@ class Calculator {
       try {
         _nums.add(double.parse(value));
       } catch (FormatException) {
-        if (ErrorLog.getLast()?.message != "Number expected but EOF found.") //El modificador '?.' solo realizará la operación cuando la función no haya devuelto null. 
+        if (ErrorLog.getLast()?.message !=
+            "Number expected but EOF found.") //El modificador '?.' solo realizará la operación cuando la función no haya devuelto null.
           _addNewErrorMessage(
               ErrorCode.NUMBER_EXPECTED,
               "Number expected but '" +

@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:string_calculator_java/calculator.dart';
-import 'package:string_calculator_java/calculator_error.dart';
 import 'package:string_calculator_java/error_log.dart';
 
 void main() {
@@ -29,14 +28,6 @@ void main() {
 
   test('not accept EOF', () {
     calculator.add("1,3,");
-
-/*
-  Expected: 'Number expected but EOF found.'
-    Actual: 'Number expected but \',\' found at position 3.'
-*/
-
-
-
     expect(ErrorLog.getLast().message, "Number expected but EOF found.");
   });
 
@@ -58,9 +49,9 @@ void main() {
 
   test('log multiple errors', () {
     calculator.add("-1,,2");
-    expect(ErrorLog.get(ErrorLog.getCount()-2).message,
+    expect(ErrorLog.get(ErrorLog.getCount() - 2).message,
         "Number expected but ',' found at position 3.");
-    expect(ErrorLog.getLast().message,"Negative not allowed : -1");
+    expect(ErrorLog.getLast().message, "Negative not allowed : -1");
   });
 
   test('handle multiplications', () {
