@@ -55,11 +55,18 @@ Write a function for multiply with same rules
 
 
 
-# WIP BLoC
-This is a WIP part where the goal is to practice the *BLoC pattern*.
+# From this point, the goal is to practice the BLoC pattern
 
 # Get user input by GUI
-Add an input text field and call the function *add*.
+Create a State that contains an input text field.
+This State will add an Event to the Stream when pressing ENTER.
+
+# Process the new Event
+When our new event is created, call the function *add* and get the result.
 
 # Print the result in the GUI
-Add a new text field to print the result.
+Create a new State that should print the result of the function *add*.
+Add a new text field to show the output in this State.
+
+# Add an operator selector
+In the input State, create a widget for selecting the operation to be performed.
