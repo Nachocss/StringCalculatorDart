@@ -9,7 +9,8 @@ abstract class CalculatorState extends Equatable {
   List<Object> get props => [];
 }
 
-class CalculatorEmpty extends CalculatorState {}
+class CalculatorHome extends CalculatorState {
+}
 
 class CalculatorFoundError extends CalculatorState {
   final CalculatorError error;

@@ -68,8 +68,12 @@ When our new event is created, call the function *add* and get the result and pr
 # Print the result in the GUI
 Create a new Widget that will print the result of the function *add*.
 
-# Inform through the GUI if anything went wrong
+# Inform through a text field if anything went wrong
 Tell the user what happened in case an error was found.
+
+# Create a Dialog that informs about the errors instead of loading another State like we did before
+First, build a basic Dialog that just contains text. 
+Then, add an *Accept* button to be able to close it.
 
 # Allow the user to navigate between the different States
 Add a *BACK* button that takes you from the final State to the Initial State

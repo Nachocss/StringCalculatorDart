@@ -12,6 +12,8 @@ class ErrorLog {
   static CalculatorError getLast() =>
       _errorList.length > 0 ? _errorList.last : null;
 
+  static String getErrors() => _errorList.map((e) => e.message).join("\n").toString();
+
   static clear() => _errorList.clear();
 
   static isEmpty() => _errorList.isEmpty;

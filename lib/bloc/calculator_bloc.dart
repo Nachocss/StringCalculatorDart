@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:string_calculator_java/bloc/calculator_events.dart';
 import 'package:string_calculator_java/bloc/calculator_state.dart';
@@ -9,7 +10,7 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
   final Calculator _calculator = new Calculator();
 
   @override
-  CalculatorState get initialState => CalculatorEmpty();
+  CalculatorState get initialState => CalculatorHome();
 
   @override
   Stream<CalculatorState> mapEventToState(CalculatorEvent event) async* {
@@ -31,7 +32,7 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
       }
     }
     if (event is GoHome) {
-      yield CalculatorEmpty();
+      yield CalculatorHome();
     }
   }
 }

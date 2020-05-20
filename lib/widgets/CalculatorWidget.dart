@@ -12,28 +12,20 @@ class CalculatorWidget extends StatefulWidget {
 }
 
 class _CalculatorWidgetState extends State<CalculatorWidget> {
-  TextEditingController inputController = new TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('String Calculator'), actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.search),
-          onPressed: () async {
-            BlocProvider.of<CalculatorBloc>(context)
-                .add(OperateInput(userInput: inputController.text));
-          },
-        ),
-      ]),
+      appBar: AppBar(
+        title: Text('String Calculator'),
+      ),
       body: Center(
         child: BlocBuilder<CalculatorBloc, CalculatorState>(
           builder: (context, state) {
-            if (state is CalculatorEmpty) {
-              return HomeScreen(inputController: inputController);
+            if (state is CalculatorHome) {
+              return HomeScreen();
             }
             if (state is CalculatorFoundError) {
-              return ErrorScreen();
+              return HomeScreenShowingErrorDialog();
             }
             if (state is CalculatorResult) {
               return ResultScreen(state: state);
@@ -76,13 +68,17 @@ class ResultScreen extends StatelessWidget {
   }
 }
 
-class HomeScreen extends StatelessWidget {
-  final TextEditingController inputController;
-
+class HomeScreen extends StatefulWidget {
   const HomeScreen({
     Key key,
-    @required this.inputController,
   }) : super(key: key);
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  TextEditingController inputController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -96,25 +92,21 @@ class HomeScreen extends StatelessWidget {
         RaisedButton(
           child: Text("ADD"),
           onPressed: () {
-            BlocProvider.of<CalculatorBloc>(context)
-                .add(OperateInput(userInput: inputController.text, operationType: OperationType.ADD));
+            BlocProvider.of<CalculatorBloc>(context).add(OperateInput(
+                userInput: inputController.text,
+                operationType: OperationType.ADD));
           },
         ),
         RaisedButton(
           child: Text("MULTIPLY"),
           onPressed: () {
-            BlocProvider.of<CalculatorBloc>(context)
-                .add(OperateInput(userInput: inputController.text, operationType: OperationType.MULTIPLY));
+            BlocProvider.of<CalculatorBloc>(context).add(OperateInput(
+                userInput: inputController.text,
+                operationType: OperationType.MULTIPLY));
           },
         )
       ],
     );
-    /*return Center(
-        child: TextField(
-      controller: inputController,
-      maxLines: 2,
-      decoration: InputDecoration(hintText: 'Please insert data'),
-    ));*/
   }
 }
 
@@ -146,5 +138,43 @@ class ErrorScreen extends StatelessWidget {
           return Future(() =>
               false); //Giving 'true' to this value will make our app to close.
         });
+  }
+}
+
+class HomeScreenShowingErrorDialog extends StatelessWidget {
+  const HomeScreenShowingErrorDialog({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        HomeScreen(),
+        ErrorDialog(),
+      ],
+    );
+  }
+}
+
+class ErrorDialog extends StatelessWidget {
+  const ErrorDialog({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text("Error found"),
+      content: Text(
+        ErrorLog.getErrors(),
+      ),
+      actions: <Widget>[
+        FlatButton(
+            child: Text('Accept'),
+            onPressed: () =>
+                BlocProvider.of<CalculatorBloc>(context).add(GoHome())),
+      ],
+    );
   }
 }
