@@ -6,16 +6,26 @@ import 'package:string_calculator_java/calculator.dart';
 import '../error_log.dart';
 
 class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
+  final Calculator _calculator = new Calculator();
+
   @override
   CalculatorState get initialState => CalculatorEmpty();
 
   @override
   Stream<CalculatorState> mapEventToState(CalculatorEvent event) async* {
     if (event is OperateInput) {
-      String result = new Calculator().add(event.userInput);
+      String result = "";
+
+      switch (event.operationType) {
+        case OperationType.ADD:
+          result = _calculator.add(event.userInput);
+          break;
+        case OperationType.MULTIPLY:
+          result = _calculator.multiply(event.userInput);
+          break;
+      }
       if (ErrorLog.isNotEmpty()) {
         yield CalculatorFoundError(error: ErrorLog.getLast());
-
       } else {
         yield CalculatorResult(result: result);
       }

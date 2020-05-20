@@ -76,3 +76,6 @@ Add a *BACK* button that takes you from the final State to the Initial State
 
 # Add an operator selector
 In the input State, create a widget for selecting the operation to be performed.
+
+# Support navigation using back arrow instead of the button we just created
+In order to do this, you should check *WillPopScope* widget and its parameter *onWillPop*.
