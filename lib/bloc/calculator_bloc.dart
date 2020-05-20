@@ -24,6 +24,10 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
         case OperationType.MULTIPLY:
           result = _calculator.multiply(event.userInput);
           break;
+        case OperationType.DIVIDE:
+          break;
+        case OperationType.SUBSTRACT:
+          break;
       }
       if (ErrorLog.isNotEmpty()) {
         yield CalculatorFoundError(error: ErrorLog.getLast());

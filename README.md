@@ -72,14 +72,17 @@ Create a new Widget that will print the result of the function *add*.
 Tell the user what happened in case an error was found.
 
 # Create a Dialog that informs about the errors instead of loading another State like we did before
-First, build a basic Dialog that just contains text. 
+First, build a basic Dialog that just contains text.
 Then, add an *Accept* button to be able to close it.
 
 # Allow the user to navigate between the different States
 Add a *BACK* button that takes you from the final State to the Initial State
 
 # Add an operator selector
-In the input State, create a widget for selecting the operation to be performed.
+In the input State, let the user to choose the operation to be performed.
 
 # Support navigation using back arrow instead of the button we just created
 In order to do this, you should check *WillPopScope* widget and its parameter *onWillPop*.
+
+# Display a notification if an operation button is pressed but the input is empty
+A good way to achieve this is by implementing a SnackBar.

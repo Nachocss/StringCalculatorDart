@@ -11,7 +11,7 @@ class OperateInput extends CalculatorEvent {
   final String userInput;
   final OperationType operationType;
 
-  const OperateInput({@required this.operationType, @required this.userInput}) : assert(userInput != "");
+  const OperateInput({@required this.operationType, @required this.userInput});
 
   @override
   List<String> get props => [userInput];

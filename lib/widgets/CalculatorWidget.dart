@@ -92,6 +92,9 @@ class _HomeScreenState extends State<HomeScreen> {
         RaisedButton(
           child: Text("ADD"),
           onPressed: () {
+            if (inputController.text.isEmpty) {
+              Scaffold.of(context).showSnackBar(SnackBar(content: Text("Insert some data"),));
+            }
             BlocProvider.of<CalculatorBloc>(context).add(OperateInput(
                 userInput: inputController.text,
                 operationType: OperationType.ADD));
@@ -100,6 +103,9 @@ class _HomeScreenState extends State<HomeScreen> {
         RaisedButton(
           child: Text("MULTIPLY"),
           onPressed: () {
+            if (inputController.text.isEmpty) {
+              Scaffold.of(context).showSnackBar(SnackBar(content: Text("Insert some data"),));
+            }
             BlocProvider.of<CalculatorBloc>(context).add(OperateInput(
                 userInput: inputController.text,
                 operationType: OperationType.MULTIPLY));
