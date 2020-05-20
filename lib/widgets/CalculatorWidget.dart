@@ -89,29 +89,58 @@ class _HomeScreenState extends State<HomeScreen> {
           maxLines: 2,
           decoration: InputDecoration(hintText: 'Please insert data'),
         ),
-        RaisedButton(
-          child: Text("ADD"),
-          onPressed: () {
-            if (inputController.text.isEmpty) {
-              Scaffold.of(context).showSnackBar(SnackBar(content: Text("Insert some data"),));
-            }
-            BlocProvider.of<CalculatorBloc>(context).add(OperateInput(
-                userInput: inputController.text,
-                operationType: OperationType.ADD));
-          },
+        OperationButton(
+          inputController: inputController,
+          operationType: OperationType.ADD,
         ),
-        RaisedButton(
-          child: Text("MULTIPLY"),
-          onPressed: () {
-            if (inputController.text.isEmpty) {
-              Scaffold.of(context).showSnackBar(SnackBar(content: Text("Insert some data"),));
-            }
-            BlocProvider.of<CalculatorBloc>(context).add(OperateInput(
-                userInput: inputController.text,
-                operationType: OperationType.MULTIPLY));
-          },
-        )
+        OperationButton(
+          inputController: inputController,
+          operationType: OperationType.MULTIPLY,
+        ),
       ],
+    );
+  }
+}
+
+class OperationButton extends StatelessWidget {
+  const OperationButton({
+    Key key,
+    @required this.inputController,
+    @required this.operationType,
+  }) : super(key: key);
+
+  final TextEditingController inputController;
+  final OperationType operationType;
+
+  @override
+  Widget build(BuildContext context) {
+    String buttonText;
+    switch (operationType) {
+      case OperationType.ADD:
+        buttonText = "ADD";
+        break;
+      case OperationType.MULTIPLY:
+        buttonText = "MULTIPLY";
+        break;
+      case OperationType.DIVIDE:
+        buttonText = "DIVIDE";
+        break;
+      case OperationType.SUBSTRACT:
+        buttonText = "SUBSTRACT";
+        break;
+    }
+    return RaisedButton(
+      child: Text(buttonText),
+      onPressed: () {
+        if (inputController.text.isEmpty) {
+          Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text("Insert some data"),
+          ));
+        } else {
+          BlocProvider.of<CalculatorBloc>(context).add(OperateInput(
+              userInput: inputController.text, operationType: operationType));
+        }
+      },
     );
   }
 }

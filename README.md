@@ -71,18 +71,19 @@ Create a new Widget that will print the result of the function *add*.
 # Inform through a text field if anything went wrong
 Tell the user what happened in case an error was found.
 
-# Create a Dialog that informs about the errors instead of loading another State like we did before
+# Create a Dialog that informs about the error
 First, build a basic Dialog that just contains text.
 Then, add an *Accept* button to be able to close it.
 
-# Allow the user to navigate between the different States
+# Allow navigation between States
 Add a *BACK* button that takes you from the final State to the Initial State
 
-# Add an operator selector
-In the input State, let the user to choose the operation to be performed.
-
-# Support navigation using back arrow instead of the button we just created
+# Support navigation using the phone's back button
 In order to do this, you should check *WillPopScope* widget and its parameter *onWillPop*.
 
-# Display a notification if an operation button is pressed but the input is empty
+# Support other operations
+In the input State, let the user to choose the operation to be calculated.
+
+# Display a notification if the input is empty
+Let the user know that he needs to insert the factors to calculate with.
 A good way to achieve this is by implementing a SnackBar.

@@ -29,8 +29,9 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
         case OperationType.SUBSTRACT:
           break;
       }
+
       if (ErrorLog.isNotEmpty()) {
-        yield CalculatorFoundError(error: ErrorLog.getLast());
+        yield CalculatorFoundError();
       } else {
         yield CalculatorResult(result: result);
       }
