@@ -1,22 +1,20 @@
-import 'package:quiver/strings.dart';
 import 'package:string_calculator_java/error_log.dart';
 
 import 'calculator_error.dart';
 
 class Calculator {
-  List<double> _nums = new List();
-  String _defaultSeparators = ",|\n";
   String _separators;
-  RegExp _separatorsRegex;
-  RegExp _numbersRegex = new RegExp("^-?[0-9]+");
-  RegExp _specialCharacters = new RegExp("[!@#\$%^&*(),.?\":{}|<>]");
+  List<double> _nums = List();
+  String _defaultSeparators = ",|\n";
   int _inputIndex; //Value that represents the char that is being tested on the input string.
 
-  add(String input) {
-    if (isEmpty(input)) {
-      return "0";
-    }
-    _processInput(input);
+  add(String expression) {
+    if (expression.isEmpty) return "0";
+
+    _setSeparators(expression);
+    if (_separators != _defaultSeparators) expression = _cleanInput(expression);
+
+    _validateAndCast(expression);
     if (ErrorLog.isNotEmpty())
       return "Error has occurred. Check ErrorLog to see details.";
 
@@ -24,11 +22,13 @@ class Calculator {
     return _roundIfPossible(result);
   }
 
-  multiply(String input) {
-    if (isEmpty(input)) {
-      return "0";
-    }
-    _processInput(input);
+  multiply(String expression) {
+    if (expression.isEmpty) return "0";
+
+    _setSeparators(expression);
+    if (_separators != _defaultSeparators) expression = _cleanInput(expression);
+
+    _validateAndCast(expression);
     if (ErrorLog.isNotEmpty())
       return "Error has occurred. Check ErrorLog to see details.";
 
@@ -36,47 +36,42 @@ class Calculator {
     return _roundIfPossible(result);
   }
 
-  void _processInput(String input) {
+  void _validateAndCast(String expression) {
     _nums.clear();
     _inputIndex = 1;
     ErrorLog.clear();
-    _setSeparators(input);
-    input = _cleanInput(input);
 
-    bool endsInNumber =
-        input.substring(input.length - 1).contains(_numbersRegex);
+    _castExpressionToNumbers(expression);
+
+    bool endsInNumber = expression
+        .substring(expression.length - 1)
+        .contains(RegExp("^-?[0-9]+"));
     if (!endsInNumber) {
-      ErrorLog.put(new CalculatorError(
+      ErrorLog.put(CalculatorError(
           ErrorCode.EOF_FOUND, "Number expected but EOF found."));
     }
-
-    _castInputToDouble(input);
 
     _searchForNegativeValues();
   }
 
   _setSeparators(String input) {
-    if (input.contains(new RegExp("//(.|\n)*\n(.)*"))) {
-      int indexOfFirstNumber = input.indexOf("\n") + 1;
-      _separators = input.substring(2, indexOfFirstNumber - 1);
-      if (_separators.contains(_specialCharacters)) {
+    var customSeparators = RegExp("//(.|\n)*\n(.)*");
+    if (input.contains(customSeparators)) {
+      _separators = input.substring(2, input.indexOf("\n"));
+      if (_separators.contains(RegExp("[!@#\$%^&*(),.?\":{}|<>]"))) {
         _separators = "[" + _separators + "]";
       }
     } else {
       _separators = _defaultSeparators;
     }
-    _separatorsRegex = new RegExp(_separators);
   }
 
   String _cleanInput(String input) {
-    if (_separators != _defaultSeparators)
-      return input.substring(input.indexOf("\n") + 1);
-    else
-      return input;
+    return input.substring(input.indexOf("\n") + 1);
   }
 
   void _searchForNegativeValues() {
-    List<double> negativeNums = new List();
+    List<double> negativeNums = List();
     for (double x in _nums) {
       if (x < 0) negativeNums.add(x);
     }
@@ -92,8 +87,8 @@ class Calculator {
     }
   }
 
-  void _castInputToDouble(String input) {
-    List<String> splittedInput = input.split(_separatorsRegex);
+  void _castExpressionToNumbers(String expression) {
+    List<String> splittedInput = expression.split(RegExp(_separators));
     int i = 0;
     String value = "";
     for (i = 0; i < splittedInput.length; i++) {
@@ -103,11 +98,11 @@ class Calculator {
         _nums.add(double.parse(value));
       } catch (FormatException) {
         if (ErrorLog.getLast()?.message !=
-            "Number expected but EOF found.") //El modificador '?.' solo realizará la operación cuando la función no haya devuelto null.
+            "Number expected but EOF found.") //El modificador '?.' solo realizará la siguiente operación cuando la función no haya devuelto null.
           _addNewErrorMessage(
               ErrorCode.NUMBER_EXPECTED,
               "Number expected but '" +
-                  input[_inputIndex] +
+                  expression[_inputIndex] +
                   "' found at position " +
                   _inputIndex.toString() +
                   ".");
@@ -123,6 +118,6 @@ class Calculator {
   }
 
   _addNewErrorMessage(ErrorCode errorCode, String message) {
-    ErrorLog.put(new CalculatorError(errorCode, message));
+    ErrorLog.put(CalculatorError(errorCode, message));
   }
 }
