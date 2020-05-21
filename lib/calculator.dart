@@ -18,7 +18,7 @@ class Calculator {
     if (ErrorLog.isNotEmpty())
       return "Error has occurred. Check ErrorLog to see details.";
 
-    var result = _nums.reduce((a, b) => a + b);
+    double result = _nums.reduce((a, b) => a + b);
     return _roundIfPossible(result);
   }
 
@@ -32,9 +32,41 @@ class Calculator {
     if (ErrorLog.isNotEmpty())
       return "Error has occurred. Check ErrorLog to see details.";
 
-    var result = _nums.reduce((a, b) => a * b);
+    double result = _nums.reduce((a, b) => a * b);
     return _roundIfPossible(result);
   }
+
+  subtract(String expression) {
+    if (expression.isEmpty) return "0";
+
+    _setSeparators(expression);
+    if (_separators != _defaultSeparators) expression = _cleanInput(expression);
+
+    _validateAndCast(expression);
+    if (ErrorLog.isNotEmpty())
+      return "Error has occurred. Check ErrorLog to see details.";
+
+    double result = _nums[0];
+    for (int i = 1; i < _nums.length; i++) result -= _nums[i];
+    return _roundIfPossible(result);
+  }
+
+  divide(String expression) {
+    if (expression.isEmpty) return "0";
+
+    _setSeparators(expression);
+    if (_separators != _defaultSeparators) expression = _cleanInput(expression);
+
+    _validateAndCast(expression);
+    if (ErrorLog.isNotEmpty())
+      return "Error has occurred. Check ErrorLog to see details.";
+
+    double result = _nums[0];
+    for (int i = 1; i < _nums.length; i++) result /= _nums[i];
+    return _roundIfPossible(result);
+  }
+
+
 
   void _validateAndCast(String expression) {
     _nums.clear();

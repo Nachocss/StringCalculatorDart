@@ -25,8 +25,10 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
           result = _calculator.multiply(event.userInput);
           break;
         case OperationType.DIVIDE:
+          result = _calculator.divide(event.userInput);
           break;
-        case OperationType.SUBSTRACT:
+        case OperationType.SUBTRACT:
+          result = _calculator.subtract(event.userInput);
           break;
       }
 

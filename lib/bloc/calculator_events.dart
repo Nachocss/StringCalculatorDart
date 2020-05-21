@@ -5,7 +5,7 @@ abstract class CalculatorEvent extends Equatable {
   const CalculatorEvent();
 }
 
-enum OperationType { ADD, MULTIPLY, DIVIDE, SUBSTRACT }
+enum OperationType { ADD, MULTIPLY, DIVIDE, SUBTRACT }
 
 class OperateInput extends CalculatorEvent {
   final String userInput;

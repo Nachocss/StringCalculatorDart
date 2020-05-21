@@ -18,7 +18,9 @@ class App extends StatelessWidget {
         create: (context) => CalculatorBloc(),
         child: CalculatorWidget(),
       ),
-    );
+      darkTheme: ThemeData.dark(),
+      themeMode: ThemeMode.dark,
+      );
   }
 }
 

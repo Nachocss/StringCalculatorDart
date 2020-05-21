@@ -82,22 +82,58 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        TextField(
-          controller: inputController,
-          maxLines: 2,
-          decoration: InputDecoration(hintText: 'Please insert data'),
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: TextField(
+              controller: inputController,
+              maxLines: 2,
+              decoration: InputDecoration(hintText: 'Please insert data'),
+            ),
+          ),
+          ButtonGroup(inputController: inputController),
+        ],
+      ),
+    );
+  }
+}
+
+class ButtonGroup extends StatelessWidget {
+  const ButtonGroup({Key key, @required this.inputController})
+      : super(key: key);
+  final TextEditingController inputController;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      child: Column(children: <Widget>[
+        Row(
+          children: <Widget>[
+            OperationButton(
+              inputController: inputController,
+              operationType: OperationType.ADD,
+            ),
+            OperationButton(
+              inputController: inputController,
+              operationType: OperationType.MULTIPLY,
+            ),
+          ],
         ),
-        OperationButton(
-          inputController: inputController,
-          operationType: OperationType.ADD,
+        Row(
+          children: <Widget>[
+            OperationButton(
+              inputController: inputController,
+              operationType: OperationType.SUBTRACT,
+            ),
+            OperationButton(
+              inputController: inputController,
+              operationType: OperationType.DIVIDE,
+            ),
+          ],
         ),
-        OperationButton(
-          inputController: inputController,
-          operationType: OperationType.MULTIPLY,
-        ),
-      ],
+      ]),
     );
   }
 }
@@ -117,30 +153,41 @@ class OperationButton extends StatelessWidget {
     String buttonText;
     switch (operationType) {
       case OperationType.ADD:
-        buttonText = "ADD";
+        buttonText = "+";
         break;
       case OperationType.MULTIPLY:
-        buttonText = "MULTIPLY";
+        buttonText = "x";
         break;
       case OperationType.DIVIDE:
-        buttonText = "DIVIDE";
+        buttonText = "%";
         break;
-      case OperationType.SUBSTRACT:
-        buttonText = "SUBSTRACT";
+      case OperationType.SUBTRACT:
+        buttonText = "-";
         break;
     }
-    return RaisedButton(
-      child: Text(buttonText),
-      onPressed: () {
-        if (inputController.text.isEmpty) {
-          Scaffold.of(context).showSnackBar(SnackBar(
-            content: Text("Insert some data"),
-          ));
-        } else {
-          BlocProvider.of<CalculatorBloc>(context).add(OperateInput(
-              userInput: inputController.text, operationType: operationType));
-        }
-      },
+    return Padding(
+      padding: EdgeInsets.all(8),
+      child: ButtonTheme(
+        height: 120.0,
+        minWidth: 120.0,
+        child: RaisedButton(
+          child: Text(
+            buttonText,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 100.0),
+          ),
+          onPressed: () {
+            if (inputController.text.isEmpty) {
+              Scaffold.of(context).showSnackBar(SnackBar(
+                content: Text("Insert some data"),
+              ));
+            } else {
+              BlocProvider.of<CalculatorBloc>(context).add(OperateInput(
+                  userInput: inputController.text,
+                  operationType: operationType));
+            }
+          },
+        ),
+      ),
     );
   }
 }
